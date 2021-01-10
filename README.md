@@ -18,11 +18,16 @@ If the above command doesn't work, you have another way to achieve that. Generat
 ```shell
 $ vagrant ssh-config > ssh_config
 ```
-Then, justa run a ssh command:
+Then, just run a ssh command:
 ```shell
 $ ssh -F ssh_config wordpress
 ```
 
+If you are using Virtual Box, install the following plugin:
+```shell
+$ vagrant plugin install vagrant-vbguest
+```
+Installing this plugin Virtual Box will be able to share the `/vagrant` folder.
 
 ## Ansible
 Execute a remote command on a machine:
