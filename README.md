@@ -32,5 +32,24 @@ Installing this plugin Virtual Box will be able to share the `/vagrant` folder.
 ## Ansible
 Execute a remote command on a machine:
 ```shell
-$ ansible wordpress -u vagrant --private-key /path/to/private_key -i hosts -m shell -a 'echo Hello, World'
+$ ansible wordpress -u vagrant --private-key .vagrant/machines/wordpress/virtualbox/private_key -i hosts -m shell -a 'echo Hello, World'
+```
+
+### Playbook
+
+```shell
+$ ansible-playbook provisioning.yml -u vagrant --private-key .vagrant/machines/wordpress/virtualbox/private_key -i hosts
+```
+
+
+## Details
+I've had some issues with `vagrant ssh`. In order to fix it, I had to install the specifics versions:
+
+* Vagrant 2.1.5
+* Ansible 2.9.16
+* VirtualBox 5.2.44
+
+If you face some problems when connecting to a VM after destroying it and creating another one, just append the following line to your user profile:
+```
+$ echo "export ANSIBLE_HOST_KEY_CHECKING=False" >> ~/.bashrc
 ```
