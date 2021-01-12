@@ -29,6 +29,22 @@ $ vagrant plugin install vagrant-vbguest
 ```
 Installing this plugin Virtual Box will be able to share the `/vagrant` folder.
 
+
+### AWS
+Install AWS Plugin:
+```
+$ vagrant plugin install vagrant-aws
+```
+Install Dummy Box:
+```
+$ vagrant box add --force dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
+```
+
+```
+$ vagrant up aws_web --provider=aws
+```
+
+
 ## Ansible
 Execute a remote command on a machine:
 ```shell
