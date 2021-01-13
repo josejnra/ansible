@@ -48,13 +48,13 @@ $ vagrant up aws_web --provider=aws
 ## Ansible
 Execute a remote command on a machine:
 ```shell
-$ ansible wordpress -u vagrant --private-key .vagrant/machines/wordpress/virtualbox/private_key -i hosts -m shell -a 'echo Hello, World'
+$ ansible wordpress -u vagrant -i hosts --private-key .vagrant/machines/wordpress/virtualbox/private_key -m shell -a 'echo Hello, World'
 ```
 
 ### Playbook
 
 ```shell
-$ ansible-playbook provisioning.yml -u vagrant --private-key .vagrant/machines/wordpress/virtualbox/private_key -i hosts
+$ ansible-playbook provisioning.yml -u vagrant -i hosts --private-key .vagrant/machines/wordpress/virtualbox/private_key
 ```
 
 
