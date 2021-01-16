@@ -28,8 +28,12 @@
         password: 12345
         priv: 'wordpress_db.*:ALL'
         state: present
-        host: ['localhost', '127.0.0.1', '172.17.177.40']
-    
+        host: '{{ item }}'
+      with_items:
+        - 'localhost'
+        - '127.0.0.1'
+        - '172.17.177.40'
+
     - name: 'Set MySQL to accept all connections'
       copy:
         src: 'files/my.cnf'
