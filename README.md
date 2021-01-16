@@ -56,7 +56,10 @@ $ ansible wordpress -u vagrant -i hosts --private-key .vagrant/machines/wordpres
 ```shell
 $ ansible-playbook provisioning.yml -u vagrant -i hosts --private-key .vagrant/machines/wordpress/virtualbox/private_key
 ```
-
+After you have your inventory set with path to private key and users to be used, all you need to run is:
+```shell
+$ ansible-playbook -i hosts provisioning.yml
+```
 
 ## Details
 I've had some issues with `vagrant ssh`. In order to fix it, I had to install the specifics versions:
