@@ -1,5 +1,28 @@
 ---
-- hosts: all
+- hosts: database
+
+  tasks:
+    - name: 'Install system dependencies'
+      apt:
+        name: ['mysql-server-5.6', 'python-mysqldb']
+        state: latest
+      become: yes
+
+    - name: 'Create MySQL database'
+      mysql_db:
+        name: wordpress_db
+        login_user: root
+        state: present
+
+    - name: 'Create MySQL user'
+      mysql_user:
+        login_user: root
+        name: wordpress_user
+        password: '12345'
+        priv: 'wordpress_db.*:ALL'
+        state: present
+
+- hosts: wordpress
 
   handlers:
     - name: restart apache
@@ -15,23 +38,9 @@
         state: latest
       become: yes
     
-    - name: 'Install MySQL'
-      mysql_db:
-        name: wordpress_db
-        login_user: root
-        state: present
-
-    - name: 'Create MySQL user'
-      mysql_user:
-        login_user: root
-        name: wordpress_user
-        password: '12345'
-        priv: 'wordpress_db.*:ALL'
-        state: present
-    
     - name: 'Download wordpress installer'
       get_url:
-        url: https://wordpress.org/latest.tar.gz'
+        url: 'https://wordpress.org/wordpress-5.0.tar.gz'
         dest: '/tmp/wordpress.tar.gz'
 
     - name: 'Decompress wordpress'
