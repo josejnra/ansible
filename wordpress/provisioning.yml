@@ -1,6 +1,13 @@
 ---
 - hosts: database
 
+  handlers:
+    - name: restart mysql
+      service:
+        name: mysql
+        state: restarted
+      become: yes
+
   tasks:
     - name: 'Install system dependencies'
       apt:
@@ -8,7 +15,7 @@
         state: latest
       become: yes
 
-    - name: 'Create MySQL database'
+    - name: 'Create a MySQL database'
       mysql_db:
         name: wordpress_db
         login_user: root
@@ -18,9 +25,18 @@
       mysql_user:
         login_user: root
         name: wordpress_user
-        password: '12345'
+        password: 12345
         priv: 'wordpress_db.*:ALL'
         state: present
+        host: ['localhost', '127.0.0.1', '172.17.177.40']
+    
+    - name: 'Set MySQL to accept all connections'
+      copy:
+        src: 'files/my.cnf'
+        dest: '/etc/mysql/my.cnf'
+      become: yes
+      notify:
+        - restart mysql
 
 - hosts: wordpress
 
@@ -29,12 +45,12 @@
       service:
         name: apache2
         state: restarted
-  become: yes
+      become: yes
 
   tasks:
     - name: 'Install system dependencies'
       apt:
-        name: ['php5', 'apache2', 'libapache2-mod-php5', 'php5-gd', 'libssh2-php', 'php5-mcrypt', 'mysql-server-5.6', 'python-mysqldb', 'php5-mysql']
+        name: ['php5', 'apache2', 'libapache2-mod-php5', 'php5-gd', 'libssh2-php', 'php5-mcrypt', 'php5-mysql']
         state: latest
       become: yes
     
@@ -66,12 +82,13 @@
         - { regex: 'database_name_here', value: 'wordpress_db'}
         - { regex: 'username_here', value: 'wordpress_user'}
         - { regex: 'password_here', value: '12345'}
+        - { regex: 'localhost', value: '172.17.177.42'}
       become: yes
 
     - name: 'Configure Apache Server for Wordpress'
       copy:
         src: 'files/000-default.conf'
         dest: '/etc/apache2/sites-available/000-default.conf'
-      become: yes
       notify:
         - restart apache
+      become: yes
