@@ -10,6 +10,11 @@ From [trusty](trusty) folder, run the following command to create a virtual mach
 $ vagrant up
 ```
 
+From [trusty](trusty) folder, run the following command to destroy a virtual machines.
+```shell
+$ vagrant destroy
+```
+
 In order to connect via ssh all you got do is just run:
 ```shell
 $ vagrant ssh
