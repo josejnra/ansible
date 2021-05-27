@@ -15,6 +15,8 @@ From [trusty](trusty) folder, run the following command to destroy a virtual mac
 $ vagrant destroy
 ```
 
+### SSH Connect
+
 In order to connect via ssh all you got do is just run:
 ```shell
 $ vagrant ssh
