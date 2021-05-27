@@ -58,6 +58,15 @@ Execute a remote command on a machine:
 $ ansible wordpress -u vagrant -i hosts --private-key .vagrant/machines/wordpress/virtualbox/private_key -m shell -a 'echo Hello, World'
 ```
 
+### Ping
+```shell
+$ ansible master -m ping -vvv -i hosts
+```
+Where, `master` is the group name. Maybe you got use extras options, like:
+```shell
+$ ansible master -m ping -vvv -i hosts --ssh-extra-args="-o IdentitiesOnly=yes"
+```
+
 ### Playbook
 
 ```shell
