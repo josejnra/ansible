@@ -1,0 +1,21 @@
+---
+- name: Run docker/tasks/main.yml, main e default
+  include_role:
+    name: docker
+    tasks_from: main
+
+# Initialize the Kubernetes cluster with kubeadm using the below code (applicable only on master node).
+- name: Initialize the Kubernetes cluster using kubeadm
+  command: kubeadm init --apiserver-advertise-address="172.17.177.40" --apiserver-cert-extra-sans="172.17.177.40"  --node-name k8s-master --pod-network-cidr=172.17.0.0/16
+  become: yes
+
+# Setup the kube config file for the vagrant user to access the Kubernetes cluster using the below code.
+- name: Setup kubeconfig for vagrant user
+  command: "{{ item }}"
+  with_items:
+  - mkdir -p /home/vagrant/.kube
+  - cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
+  - chown vagrant:vagrant /home/vagrant/.kube/config
+  become: yes
+
+...

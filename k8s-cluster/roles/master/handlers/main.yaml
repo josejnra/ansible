@@ -1,0 +1,7 @@
+---
+# Setup a handler for checking Docker daemon using the below code.
+- name: docker status
+  service: 
+    name: docker
+    state: started
+...
